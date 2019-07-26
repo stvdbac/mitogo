@@ -1,0 +1,7 @@
+{
+  "name": "mitogo",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

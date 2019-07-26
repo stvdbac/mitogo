@@ -1,0 +1,14 @@
+.container {
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    .message {
+        font-size: 18px;
+    }
+    .step {
+        font-size: 30px;
+        color: black;
+        font-weight: bold;
+    }
+}
