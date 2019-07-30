@@ -118,6 +118,8 @@ export class TransferService {
     let current: HealthStoreOptions = null;
     for (let i = 0; i < data.length; i++) {
       if (data[i].steps) {
+
+
         const start = (i > 0) ? data[i - 1].timestamp * 1000 : (data[i].timestamp - 60) * 1000;
         const end = data[i].timestamp * 1000;
         if (current) {
@@ -150,10 +152,19 @@ export class TransferService {
     // collect consecutive DataSamples with steps in blocks of max. 10 minutes.
     const out: HealthStoreOptions[] = [];
     let current: HealthStoreOptions = null;
+
     for (let i = 0; i < data.length; i++) {
       const end = data[i].timestamp * 1000;
       if (data[i].steps) {
-        const start = (i > 0) ? data[i - 1].timestamp * 1000 : (data[i].timestamp - 60) * 1000;
+        let start = end - 60000; // default to 1 min
+        if (i > 0) {
+          const prevTs = data[i - 1].timestamp * 1000;
+          if (end - prevTs < 240000) {
+            start = prevTs;
+          }
+        }
+        /* bug here previous can be of the previous day !*/
+        // const start = (i > 0) ? data[i - 1].timestamp * 1000 : (data[i].timestamp - 60) * 1000;
         if (current) {
           current.endDate = new Date(end);
           current.value = +current.value + data[i].steps;

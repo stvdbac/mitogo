@@ -1,0 +1,6 @@
+<div class="dateselection">
+    <ion-button color="dark" fill="clear"  size="small" (click)="prevDay()"[disabled]="disabled" ><ion-icon slot="icon-only" src="./assets/icon/arrow-back.svg"></ion-icon></ion-button>
+    <div class="datestring">{{dateString}}</div>
+    <ion-button color="dark" fill="clear"  size="small" (click)="resetDate()" [disabled]="isToday || disabled"><ion-icon slot="icon-only" src="./assets/icon/calendar.svg"></ion-icon></ion-button>
+    <ion-button color="dark" fill="clear"  size="small" (click)="nextDay()" [disabled]="isToday || disabled"><ion-icon slot="icon-only" src="./assets/icon/arrow-forward.svg"></ion-icon></ion-button>
+</div>

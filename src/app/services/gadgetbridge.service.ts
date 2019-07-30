@@ -4,7 +4,8 @@ import { Platform } from '@ionic/angular';
 import { GadgetbridgePlugin, DeviceInfo, DeviceConnectionState, ViewType, DataSample } from 'cordova-plugin-gadgetbridge';
 import { BehaviorSubject } from 'rxjs';
 import { dateToEpoch, epochToDate } from './date.function';
-import { startWith } from 'rxjs/operators';
+import { startWith, delay } from 'rxjs/operators';
+import { GadgetBridgeMock } from './gadgetbridge.mock';
 
 declare var cordova: any;
 
@@ -30,9 +31,13 @@ export class GadgetbridgeService {
 
     constructor(private platform: Platform) {
         console.log(`${this.name} constructor`);
-        this.isAvailable().then(() => {
-            console.log(`${this.name} GadgetbridgePlugin available`);
-            this.init();
+        this.isAvailable().then((val) => { if (val) {
+                console.log(`${this.name} GadgetbridgePlugin available`);
+                this.init();
+            } else {
+                this.plugin = new GadgetBridgeMock();
+                this.connect();
+            }
         });
     }
 
@@ -48,12 +53,10 @@ export class GadgetbridgeService {
 
             this.plugin.onConnect((state: DeviceConnectionState) => {
                 console.log(`${this.name} connected ${state.address} - ${state.state}`);
-                // this.connected = true;
                 this.state = state;
                 this.state$.next(state.state);
-                if (state.state === 'CONNECTED') { this.connected$.next(true); }
+                if (state.state === 'INITIALIZED') { this.connected$.next(true); }
                 if (state.state === 'NOT_CONNECTED') { this.connected$.next(false); }
-                // this.cd.detectChanges();
             });
             // this.plugin.offConnect(() => {
             //     console.log(`${this.name} disconnected`);
@@ -62,10 +65,13 @@ export class GadgetbridgeService {
             //     this.connected$.next(false);
             // });
 
-            // try connecting, when app start / resumes
-            this.platform.resume.pipe(startWith(true)).subscribe(() => {
+            // try connecting, when app starts / resumes
+            this.platform.resume.pipe(
+                    delay(1000),
+                    startWith(true)
+                ).subscribe(() => {
                 console.log(`${this.name} App resumed`);
-                setTimeout(() => this.connect().catch(() => console.log(`${this.name} error: failed to connect`)), 0);
+                setTimeout(() => this.connect().catch(() => console.log(`${this.name} error: failed to connect`)), 100);
               });
         });
     }
@@ -99,15 +105,6 @@ export class GadgetbridgeService {
                     reject();
                 });
         });
-
-        // this.plugin.connect(
-        //     () => {
-        //         console.log(`${this.name} connect success`);
-        //     },
-        //     () => {
-        //         console.log(`${this.name} connect failed`);
-        //     }
-        // );
     }
 
     isConnected(): Promise<boolean> {
@@ -118,22 +115,6 @@ export class GadgetbridgeService {
             }, reject);
         });
     }
-
-    // sync() {
-    //     if (this.syncing) return;
-    //     this. syncing = true;
-    //     this.plugin.synchronize(
-    //         () => {
-    //             console.log(`${this.name} synchronize succes`);
-    //             this.syncing = false;
-    //             this.lastSyncTimeStamp = Date.now();
-    //         },
-    //         () => {
-    //             console.log(`${this.name} synchronize failed`);
-    //             this.syncing = false;
-    //         }
-    //     );
-    // }
 
     sync(): Promise<void> {
         return new Promise<void>((resolve, reject) => {
@@ -158,6 +139,11 @@ export class GadgetbridgeService {
         });
     }
 
+    /**
+     * fetches data from gb database, does not contain heart rate data
+     * @param start start time: timestamp in sec.
+     * @param end end time: timestamp in sec.
+     */
     fetch(start: number, end: number): Promise<DataSample[]> {
         return new Promise<DataSample[]>((resolve, reject) => {
             this.plugin.retrieveData(start, end, resolve, reject);

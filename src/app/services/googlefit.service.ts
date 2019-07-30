@@ -37,7 +37,7 @@ export class GooglefitService {
       endDate: end,
       dataType: 'steps',
       value: steps,
-      sourceName: 'mitogotest',
+      sourceName: 'mitogo',
       sourceBundleId: 'be.kuleuven.mitogo'
     };
     return this.health.store(packet);

@@ -7,12 +7,16 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
+  <app-dateselection [formControl]="calendarForm"></app-dateselection>
+  <ion-card style="margin-top:0">
       <ion-item lines="none">
         <ion-thumbnail slot="start">
           <img src="./assets/icon/miband.png">
         </ion-thumbnail>
-        Mi Band
+        <h1>Mi Band</h1>
+        <!-- <ion-button slot="end" fill="clear" (click)="mibandsync()">
+          <ion-icon slot="icon-only" src="./assets/icon/download.svg"></ion-icon>
+        </ion-button> -->
       </ion-item>
       <app-steps [steps]="mibandsteps" [connected]="mibandconnected === true" [fetching]="mibandfetching" (update)="mibandget()"></app-steps>
       <div class="ion-padding-horizontal" *ngIf="mibandconnected !== true">Mi Band not connected (make sure bluetooth is enabled and the device is paired, try connecting in Gadgetbridge)</div>
@@ -30,26 +34,27 @@
     </ion-button>
   </ion-card>
 
-  <ion-card>
+  <ion-card class="ion-padding-bottom">
     <ion-item lines="none">
       <ion-thumbnail slot="start">
         <img src="./assets/icon/googlefit.png">
       </ion-thumbnail>
-      Google Fit
+      <h1>Google Fit</h1>
     </ion-item>
-    <app-steps [steps]="googlefitsteps" [connected]="googlefitauthorized === true" [fetching]="googlefitfetching" (update)="googleFitGet()"></app-steps>
+    <app-steps [steps]="googlefitsteps" [connected]="googlefitauthorized === true" (update)="googleFitGet()"></app-steps>
     <div class="ion-padding-horizontal" *ngIf="googlefitauthorized === null">Initializing Google Fit connection... (did you install Google Fit?)</div>
     <ion-button class="ion-margin" (click)="requestAuthorization()" *ngIf="googlefitauthorized === false" expand="block">
       Authorize App for Google Fit
     </ion-button>
+    <div class="synctime" *ngIf="latestSyncTimeStr">time latest entry: {{ latestSyncTimeStr }}</div>
   </ion-card>
 
-  <ion-button class="ion-margin" (click)="run_transfer()" *ngIf="readyToTransfer === true" expand="block">
+  <ion-button class="ion-margin" (click)="run_transfer()" *ngIf="readyToTransfer === true && isToday === true" expand="block">
       <ion-thumbnail slot="start" class="buttonthumbnail">
           <img src="./assets/icon/miband.png">
-        </ion-thumbnail>
+      </ion-thumbnail>
       <div class="syncbuttontext">
-      Sync To Google Fit
+      Send To Google Fit
       </div>
       <ion-thumbnail slot="end" class="buttonthumbnail">
           <img src="./assets/icon/googlefit.png">
@@ -58,14 +63,19 @@
   <ion-progress-bar type="indeterminate" *ngIf="transfering === true"></ion-progress-bar>
   <!-- <ion-button (click)="dryrun_transfer()" *ngIf="readyToTransfer === true">Sync To Google Fit (dry run)</ion-button>
   <ion-button (click)="getLatestSyncValue()">View last sync time</ion-button> -->
-
-  <ion-button class="ion-margin" (click)="outputData = ''" *ngIf="outputData" expand="block">
-    Clear Log
+  <ion-button class="ion-margin" (click)="showLog = !showLog" expand="block">
+    {{ (showLog)? "Hide Log": "Show Log"}}
   </ion-button>
-  <pre> {{ outputData }} </pre>
+  <ng-container *ngIf="showLog">
+      <div class="ion-padding-horizontal">
+        <h4>Logs</h4>
+        <pre class="logging">{{ outputData }}</pre>
+      </div>
+  </ng-container>
+
   <!-- <div class="ion-padding">
     This App is a Mi Fit App replacement based on GadgetBridge project
     Reads the steps from your Mi Band watch and syncs the data to Google Fit.
   </div> -->
-  <div class="license">App icon made by Freepik from www.flaticon.com is licensed by Creative Commons BY 3.0</div>
+  <div class="license">Some icons from www.flaticon.com is licensed by Creative Commons BY 3.0</div>
 </ion-content>

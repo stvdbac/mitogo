@@ -12,6 +12,7 @@ export class StepsComponent implements OnInit {
   @Input() fetching = false;
 
   @Output() update = new EventEmitter<boolean>();
+  @Output() detail = new EventEmitter<boolean>();
 
   constructor() { }
 
@@ -20,6 +21,11 @@ export class StepsComponent implements OnInit {
   sync() {
     console.log(`StepsComponent sync() clicked`);
     this.update.emit(true);
+  }
+
+  stepspressed() {
+    console.log(`StepsComponent stepspressed() clicked`);
+    this.detail.emit(true);
   }
 
 }

@@ -13,9 +13,11 @@ Deze app omvat de [Gadgetbridge](https://gadgetbridge.org/) app, een open source
 
 ![](./img/mitogo_synced.png)
 
-Om the starten moet eenmalig een [pairing worden gedaan met de Mi Band](#pairing-met-mi-band) en [toestemming worden gegeven om data naar Google Fit te sturen](#toestemming-voor-google-fit).
+Om the starten moet eenmalig een [pairing worden gedaan met de Mi Band](#pairing-met-mi-band) en [toestemming worden gegeven om data naar Google Fit te sturen](#toestemming-voor-google-fit).  
+
 
 ## Pairing met Mi Band
+De Mi Band kan maar met slechts één app werken. Dus het is niet mogelijk de Mi Band gelijktijdig met de Mitogo app als de Mi Fit app te gebruiken.
 
 ![](./img/mitogo_miband_init.png)
 
@@ -54,7 +56,7 @@ Om the starten moet eenmalig een [pairing worden gedaan met de Mi Band](#pairing
 
 ### Openen Gadgetbridge app
 
-- Afhankelijk van de versie van Android zal Gadgetbridge allerlei permissies vragen, maar je mag die gerust weigeren. Deze zijn er omdat Gadgetbridge notificaties van je telefoon kan doorsturen naar je Mi Band. Dit werd niet getest. 
+Afhankelijk van de versie van Android zal Gadgetbridge allerlei permissies vragen, maar je mag die gerust weigeren. Deze zijn er omdat Gadgetbridge notificaties van je telefoon kan doorsturen naar je Mi Band. Deze opties van Gadgetbridge werden niet getest. 
 
 ### Mogelijke problemen
 
@@ -76,8 +78,11 @@ in Gadgetbridge, ga naar de menu, instellingen, scroll naar onder, Mi Band 2 ins
 - zorg dat je een netwerkverbinding hebt
 - in MITOGO klik op "Authorize App for Google Fit" en volg de instructies om de app toestemming te geven om activiteits data te lezen/schrijven.
 
-
 ![](./img/mitogo_googlefit_init.png)
+
+### Instelling van Google Fit
+De Google Fit app kan je telefoon ook als stappenteller gebruiken. Maar als je de stappen teller van de Mi Band wil gebruiken is het aangewezen deze van Google Fit uit te schakelen, anders gaan de dagelijkse stappen die Google Fit verschillen van deze van je Mi Band.  
+Dit kan door in Google Fit naar Profiel tab te gaan, daarna naar settings (tandwiel icoontje in rechtbovenhoek), iets naar onder te scrollen en daar *Activiteitsstatistieken bijhouden* en *Je locatie gebruiken* uit te schakelen
 
 
 ## Gebruik van de app
@@ -86,7 +91,7 @@ Om de data door te sturen moet je de app openen.
 De app zal trachten te connecteren met de Mi Band, en de stappen uit te lezen. Als het connecteren niet lukt, kan je in Gadgetbridge op Mi Band venster klikken om te verbinden. 
 Als het aantal stappen niet overeenkomt met het aantal kan je in de app op het cijfer klikken. De data zal dan worden ge-update.
 
-In het Google Fit venster zal het aantal stappen tonen die al duurgestuurd zijn voor vandaag. Als dit getal kleiner is dan wat in Mi Band venster staat kan je op "Sync to Google Fit" klikken om de resteren de data door te sturen naar Google Fit.
+In het Google Fit venster zal het aantal stappen tonen die al duurgestuurd zijn voor vandaag. Als dit getal kleiner is dan wat in Mi Band venster staat kan je op "Send to Google Fit" klikken om de resteren de data door te sturen naar Google Fit.
 
-Als je het een dag vergeten bent te sync-en gaat "Sync to Google Fit" ook de data van de vorige dag doorsturen (tot max 2 dagen).
+Als je het een dag vergeten bent de data door te sturen gaat "Send to Google Fit" ook de data van de vorige dag doorsturen (tot max 2 dagen).
 

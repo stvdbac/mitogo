@@ -1,14 +1,45 @@
 .container {
     height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items:center;
-    .message {
-        font-size: 18px;
+    // display: flex;
+    // justify-content: center;
+    // align-items:center;
+    .stepblock {
+        height: 45px;
+        display: flex;
+        justify-content: space-between;
+        align-items:center;
+        .notsynced {
+            flex-grow: 1;
+            font-size: 21px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .step {
+            flex-grow: 1;
+            font-size: 30px;
+            display: flex;
+            justify-content: center;
+            align-items:center;
+            color: black;
+            font-weight: bold;
+            text-align: center;
+        }
+        .sync_button {
+            flex-grow: 0;
+        }
     }
-    .step {
-        font-size: 30px;
-        color: black;
+    .fetching {
+        height: 45px;
+        line-height: 45px;
+        font-size: 18px;
         font-weight: bold;
+        text-align: center;
+    }
+    .notconnected {
+        height: 45px;
+        line-height: 45px;
+        font-size: 23px;
+        font-weight: bold;
+        text-align: center;
     }
 }

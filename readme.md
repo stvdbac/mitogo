@@ -47,3 +47,27 @@ To get SHA1 certificate fingerprints of your apk run:
 ## Future work
 - currently app only shows data for current day this can be extended to display other days
 - display bar graph of last week 
+
+
+## known issues
+
+- there is an issue with back button on main screen. It should be disabled in Ionic, but it still seem to reset the app.
+- The App icon is displayed ok on Android 5.1. But on Android 8 it displays the GadgetBridge Icon.
+
+### Angular change detection issue - with GadgetBridge plugin
+- there is a issue with Angular zone, not updating the view, which seem to occure on resuming the app.  Even running `ChangeDetectorRef.detectChanges()` doesn't seem to work. 
+
+Android Logs: 
+```
+07-26 10:59:54.336: I/chromium(1538): [INFO:CONSOLE(629)] "GadgetBridgeService App resumed", source: http://localhost/home-home-module.js (629)
+07-26 10:59:54.376: I/chromium(1538): [INFO:CONSOLE(294)] "HomePage gadgetbridge.connecting$ in NgZone false", source: http://localhost/home-home-module.js (294)
+07-26 10:59:58.665: I/chromium(1538): [INFO:CONSOLE(651)] "GadgetBridgeService connect successful", source: http://localhost/home-home-module.js (651)
+07-26 10:59:58.666: I/chromium(1538): [INFO:CONSOLE(285)] "HomePage gadgetbridge.connected$ in NgZone false", source: http://localhost/home-home-module.js (285)
+07-26 10:59:58.775: I/chromium(1538): [INFO:CONSOLE(272)] "HomePage readyToTransfer = true", source: http://localhost/home-home-module.js (272)
+07-26 10:59:58.775: I/chromium(1538): [INFO:CONSOLE(273)] "HomePage transfer.ready$ in NgZone false", source: http://localhost/home-home-module.js (273)
+07-26 10:59:58.776: I/chromium(1538): [INFO:CONSOLE(294)] "HomePage gadgetbridge.connecting$ in NgZone false", source: http://localhost/home-home-module.js (294)
+```
+[see SO on change detection](https://stackoverflow.com/questions/41364386/whats-the-difference-between-markforcheck-and-detectchanges)
+
+It seems that wrapping the code in `NgZone.run()` did work, while `ChangeDetectorRef.detectChanges()` did not.
+

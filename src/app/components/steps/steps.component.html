@@ -2,26 +2,29 @@
 
   <ng-container *ngIf="!!connected; else elseNotEnabled">
       <ng-container *ngIf="!!fetching; else elseNoFetching">
-        <div class="message">Fetching step data ...</div>
+        <div class="fetching">Fetching step data...</div>
       </ng-container>
       <ng-template #elseNoFetching>
-        <ng-container *ngIf="steps != null; else elseNoData">
-          <div class="step ion-activatable" tappable (click)="sync()">
-            <ion-ripple-effect></ion-ripple-effect>
-            {{ steps }}
-          </div>
-        </ng-container>
-        <ng-template #elseNoData>
-          <div class="message ion-activatable" tappable (click)="sync()">
-              <ion-ripple-effect></ion-ripple-effect>
-              Not synced yet
-          </div>
-        </ng-template>
-        <!-- <ion-button (click)="sync()" size="small" fill="outline">Sync</ion-button> -->
+        <div class="stepblock">
+          <ng-container *ngIf="steps != null; else elseNoData">
+              <div class="step ion-activatable" (click)="stepspressed()">
+                  <div style="margin-right:10px"><ion-icon src="./assets/icon/footsteps.svg"></ion-icon></div>
+                  <div>{{ steps }}</div>
+              </div>
+          </ng-container>
+          <ng-template #elseNoData>
+              <div class="notsynced ion-activatable">
+                  Not synced yet
+              </div>
+          </ng-template>
+          <ion-button class="sync_button" slot="end" fill="clear"  size="small" (click)="sync()">
+              <ion-icon slot="icon-only" src="./assets/icon/refresh.svg"></ion-icon>
+          </ion-button>
+        </div>
       </ng-template>
   </ng-container>
   <ng-template #elseNotEnabled>
-    <div class="message"> Not connected </div>
+    <div class="notconnected"> Not connected </div>
   </ng-template>
 
 </div>
